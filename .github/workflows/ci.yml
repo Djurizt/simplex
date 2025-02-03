@@ -78,5 +78,5 @@ jobs:
       - name: Push image to GitHub
         run: |
           cd simplex
-          git push https://x-access-token:${{ secrets.GH_PAT }}@github.com/Djurizt/simplex.git main
+          git push https://github.com/Djurizt/simplex.git
 
