@@ -46,7 +46,7 @@ jobs:
         uses: actions/checkout@v3
       
       - name: Login to DockerHub
-        run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
       
       - name: Set Image Tag
         run: echo "IMAGE_TAG=V1.0.${{ github.run_number }}" >> $GITHUB_ENV
