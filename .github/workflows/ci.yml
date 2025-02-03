@@ -64,7 +64,7 @@ jobs:
       - name: Checkout Helm Repository
         run: |
           rm -rf simplex || true
-          git clone git@github.com:Djurizt/simplex.git
+          git clone https://github.com/Djurizt/simplex.git
       
       - name: Update Image Tag in Helm Chart
         run: |
