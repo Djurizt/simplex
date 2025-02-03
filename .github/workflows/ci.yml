@@ -70,9 +70,6 @@ jobs:
         run: |
           cd simplex/demo-project
           sed -i 's/tag:.*/tag: ${{ env.IMAGE_TAG }}/' ./chart/values.yaml
-          cd simplex/demo-project
-          git config user.email "gbebejunior@gmail.com"
-          git config user.name "Djurizt"
           git add ./chart/values.yaml
           git commit -m "Update image tag to ${{ env.IMAGE_TAG }}"
           git push origin main
