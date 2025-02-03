@@ -74,4 +74,7 @@ jobs:
           git config user.name "Djurizt"
           git add ./chart/values.yaml
           git commit -m "Update image tag to ${{ env.IMAGE_TAG }}"
-          git push origin main
+      - name: Push Changes to GitHub
+        run: |
+          git push https://x-access-token:${{ secrets.GH_PAT }}@github.com/Djurizt/simplex.git main
+
