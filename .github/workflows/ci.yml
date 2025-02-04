@@ -6,6 +6,9 @@ on:
       - main
 # on:
 #   workflow_dispatch:
+env:
+  IMAGE_TAG: "V1.0.${{ github.run_number }}"
+  
 jobs:
   testing:
     runs-on: ubuntu-latest
@@ -48,9 +51,6 @@ jobs:
       
       - name: Login to DockerHub
         run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
-      
-      - name: Set Image Tag
-        run: echo "IMAGE_TAG=V1.0.${{ github.run_number }}" >> $GITHUB_ENV
       
       - name: Build and Push Docker Image
         run: |
