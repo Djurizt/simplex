@@ -5,7 +5,7 @@ replicaCount: 2
 image:
   repository: thejurist/demo_project
   pullPolicy: IfNotPresent
-  tag: V1.0.120
+  tag: V1.0.121
 
 ingress:
   host: demo.thejurist.org.uk
