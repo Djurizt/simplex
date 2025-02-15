@@ -1,15 +1,15 @@
 name: demo-project CI
 
-# on:
-#   workflow_dispatch:
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+# on:
+#   push:
+#     branches:
+#       - main
       
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  # cancel-in-progress: true
   
 env:
   IMAGE_TAG: "V1.0.${{ github.run_number }}"
@@ -27,7 +27,13 @@ jobs:
         run: |
           cd demo-project
           mvn test
-
+          
+      - name: Run code coverage
+        uses: VeryGoodOpenSource/very_good_coverage@v2
+        with:
+          path: '/coverage/lcov.info'
+          min_coverage: 95
+          
   build_and_push:
     runs-on: ubuntu-latest
     needs: testing
