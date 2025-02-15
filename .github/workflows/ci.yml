@@ -2,14 +2,6 @@ name: demo-project CI
 
 on:
   workflow_dispatch:
-# on:
-#   push:
-#     branches:
-#       - main
-      
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  # cancel-in-progress: true
   
 env:
   IMAGE_TAG: "V1.0.${{ github.run_number }}"
@@ -23,16 +15,29 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Run Tests
+      - name: Run Tests with Coverage
         run: |
           cd demo-project
-          mvn test
-          
-      - name: Run code coverage
-        uses: VeryGoodOpenSource/very_good_coverage@v2
+          mvn clean test jacoco:report
+
+      - name: Verify Coverage Report Exists
+        run: ls -l demo-project/target/site/jacoco/
+
+      - name: Upload Coverage Report as Artifact
+        uses: actions/upload-artifact@v3
         with:
-          path: 'simplex/coverage/lcov.info'
-          min_coverage: 95
+          name: coverage-report
+          path: demo-project/target/site/jacoco/
+
+      - name: Check Code Coverage
+        run: |
+          COVERAGE=$(grep -oP '(?<=<counter type="LINE" missed=")[0-9]+(?=" covered="[0-9]+"/>)' demo-project/target/site/jacoco/jacoco.xml | awk '{total += $1} END {print total}')
+          echo "Coverage: $COVERAGE%"
+          if (( $(echo "$COVERAGE < 95" | bc -l) )); then
+            echo "❌ Coverage below 95%!"
+            exit 1
+          fi
+
           
   build_and_push:
     runs-on: ubuntu-latest
