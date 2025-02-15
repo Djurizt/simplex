@@ -22,9 +22,9 @@ jobs:
 
       - name: Verify Coverage Report Exists
         run: ls -l demo-project/target/site/jacoco/
-
+        
       - name: Upload Coverage Report as Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: coverage-report
           path: demo-project/target/site/jacoco/
